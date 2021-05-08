@@ -22,7 +22,7 @@ public class Main {
                 System.out.println("Great");
                 break;
             case 8:
-                System.out.println("Very good");
+                System.out.println("Very Good");
                 break;
             case 7:
                 System.out.println("Good");
@@ -37,28 +37,25 @@ public class Main {
     /**
      * Compresses a given string.
      *
-     * The compression process is done by replacing a sequence of identical consecutive characters
+     * The compression process is done by replacing
+     * a sequence of identical consecutive characters
      * with that same character followed by the length of sequence.
      *
-     * It is guaranteed that the string contains only letters (lowercase and uppercase).
+     * It is guaranteed that the string contains
+     * only letters (lowercase and uppercase).
      *
      * @param stringToCompress The string to compress
      * @return The compressed version of the string
      */
     public static String compressString(String stringToCompress) {
-        /*
-        TODO: Your code for part B1 is here...
-        Note: you may change the given code, but you must not change the signature of the method.
-         */
-//        Scanner scanner = new Scanner(System.in);
-//        System.out.println("Enter a string");
-//        String str = scanner.nextLine();
         StringBuilder compressedString = new StringBuilder();
         int countConsecutive = 0;
-        for (int i = 0; i < stringToCompress.length(); i++) {
+        int len = stringToCompress.length();
+        for (int i = 0; i < len; i++) {
             countConsecutive++;
-// If next character is different than current append this char to result
-            if (i + 1 >= stringToCompress.length() ||
+        // If next character is different
+            // than current append this char to result
+            if (i + 1 >= len ||
                     stringToCompress.charAt(i) !=
                             stringToCompress.charAt(i + 1)) {
                 compressedString.append(stringToCompress.charAt(i));
@@ -73,7 +70,8 @@ public class Main {
     /**
      * Decompresses a given string.
      *
-     * The decompression process is done by duplicating each sequence of characters
+     * The decompression process is done
+     * by duplicating each sequence of characters
      * according to the number which appears after the sequence.
      *
      * It is guaranteed that the string is a legal compressed string.
@@ -82,14 +80,42 @@ public class Main {
      * @return The decompressed string
      */
     public static String decompressString(String compressedString) {
-        String decompressedString = "";
+        StringBuilder tempSequence = new StringBuilder();
+        StringBuilder times = new StringBuilder();
+        StringBuilder decompressedString = new StringBuilder();
+        int len = compressedString.length();
+        for (int i = 0; i < len; i++) {
+            char currentChar = compressedString.charAt(i);
+//            if the current character is a digit check if there are more
+//            digits after it
+            if (currentChar >= '0'
+                    && currentChar <= '9'){
+                do {
+                    times.append(currentChar);
+                    i++;
+                    if (i < len)
+                        currentChar = compressedString.charAt(i);
+                    else
+                        break;
+                }
+                while (currentChar >= '0' && currentChar <= '9');
+                i--;
+//                get the repetitions number for the last sequence
+                int number = Integer.parseInt(times.toString());
+//                add the last sequence multiplied by repetitions number
+                for (int j = 0; j < number; j++){
+                    decompressedString.append(tempSequence);
+                }
+//                reset the strings to empty strings
+                times.delete(0, times.length());
+                tempSequence.delete(0, tempSequence.length());
+            }
+            else {
+                tempSequence.append(currentChar);
+            }
+        }
 
-        /*
-        TODO: Your code for part B2 is here...
-        Note: you may change the given code, but you must not change the signature of the method.
-         */
-
-        return decompressedString;
+        return decompressedString.toString();
     }
 
     public static void main(String[] args) throws FileNotFoundException {
@@ -110,7 +136,8 @@ public class Main {
         for (int i = 0; i < numberOfStringsToCompress; i++) {
             String stringToCompress = scanner.nextLine();
             String compressedString = compressString(stringToCompress);
-            System.out.println("The compressed version of " + stringToCompress + " is " + compressedString);
+            System.out.println("The compressed version of " + stringToCompress
+                    + " is " + compressedString);
         }
 
         // Tests for part B2
@@ -119,7 +146,8 @@ public class Main {
         for (int i = 0; i < numberOfDecompressedStrings; i++) {
             String compressedString = scanner.nextLine();
             String decompressedString = decompressString(compressedString);
-            System.out.println("The decompressed version of " + compressedString + " is " + decompressedString);
+            System.out.println("The decompressed version of "
+                    + compressedString + " is " + decompressedString);
         }
 
         // Tests for both part B1 and B2
@@ -129,7 +157,9 @@ public class Main {
             String stringToCompress = scanner.nextLine();
             String compressedString = compressString(stringToCompress);
             String decompressedString = decompressString(compressedString);
-            System.out.println("decompress(compress(" + stringToCompress + ")) == " + stringToCompress + "? " + stringToCompress.equals(decompressedString));
+            System.out.println("decompress(compress(" +
+                    stringToCompress + ")) == " + stringToCompress +
+                    "? " + stringToCompress.equals(decompressedString));
         }
     }
 }
