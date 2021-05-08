@@ -30,7 +30,6 @@ public class Main {
             default:
                 System.out.println("OK");
 
-
         }
 
     }
@@ -47,14 +46,28 @@ public class Main {
      * @return The compressed version of the string
      */
     public static String compressString(String stringToCompress) {
-        String compressedString = "";
-
         /*
         TODO: Your code for part B1 is here...
         Note: you may change the given code, but you must not change the signature of the method.
          */
+//        Scanner scanner = new Scanner(System.in);
+//        System.out.println("Enter a string");
+//        String str = scanner.nextLine();
+        StringBuilder compressedString = new StringBuilder();
+        int countConsecutive = 0;
+        for (int i = 0; i < stringToCompress.length(); i++) {
+            countConsecutive++;
+// If next character is different than current append this char to result
+            if (i + 1 >= stringToCompress.length() ||
+                    stringToCompress.charAt(i) !=
+                            stringToCompress.charAt(i + 1)) {
+                compressedString.append(stringToCompress.charAt(i));
+                compressedString.append(countConsecutive);
+                countConsecutive = 0;
+            }
+        }
 
-        return compressedString;
+        return compressedString.toString();
     }
 
     /**
